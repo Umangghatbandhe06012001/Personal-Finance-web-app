@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import axios from "axios";
 
 import TransactionList from "@/components/TransactionList";
@@ -22,35 +22,39 @@ export default function Home() {
       acc[month] = (acc[month] || 0) + txn.amount;
       return acc;
     }, {});
-  
+
     return Object.entries(grouped).map(([k, v]) => ({
       month: k,
       amount: v,
     }));
   }
 
-  function gettingTransactions() {
+  const gettingTransactions = useCallback(() => {
     axios.get("/api/transactions").then((res) => {
-      setTimeout(()=>{
+      setTimeout(() => {
         setLoad(false);
         setTransactions(res.data);
-      setChartData(getChartData(res.data));
-      },1000)
-      
+        setChartData(getChartData(res.data));
+      }, 1000);
     });
-  }
+  }, []);
 
   useEffect(() => {
     setLoad(true);
     gettingTransactions();
-  }, []);
+  }, [gettingTransactions]);
 
   return (
     <div className="p-8 space-y-8 gap-5">
       <RopeHeading />
-      <div className="h-[300px] w-[100%] pl-[10px] mb-[15px] text-center">
-        {load && <Loader2Icon className="w-4 h-4 animate-spin content-center text-center" />}
-        {!load && <ExpensesBarChart data={chartData} />}
+      <div className="h-[300px] w-full pl-2 mb-4 text-center">
+        {load ? (
+          <div className="flex justify-center items-center h-full">
+            <Loader2Icon className="w-8 h-8 animate-spin text-primary" />
+          </div>
+        ) : (
+          <ExpensesBarChart data={chartData} />
+        )}
       </div>
       <TransactionList
         data={transactions}

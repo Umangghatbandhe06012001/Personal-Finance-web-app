@@ -29,7 +29,7 @@ export default function RootLayout({
             <main className="p-6">{children}</main>
           </ThemeProvider>
         </TransactionProvider>
-       
+        <Toaster />
       </body>
     </html>
   );

@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-import TransactionForm from "@/components/TransactionForm";
 import TransactionList from "@/components/TransactionList";
 import ExpensesBarChart from "@/components/ExpensesBarChart";
 import RopeHeading from "@/components/RopeHeading";

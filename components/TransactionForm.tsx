@@ -1,7 +1,7 @@
 // components/forms/TransactionForm.tsx
 "use client";
 
-import { useState } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -18,7 +18,8 @@ export default function TransactionForm({ setOpen }: TransactionFormProps) {
   const [form, setForm] = useState({ amount: "", description: "", date: "" });
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = async (e: any) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+
     setLoading(true);
     e.preventDefault();
     if (!form.amount || !form.date) {

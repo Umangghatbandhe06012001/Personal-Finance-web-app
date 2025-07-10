@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, Variants } from "framer-motion"; // ✅ import Variants type
+import { motion} from "framer-motion"; // ✅ import Variants type
 const text = "Personal Finance Visualizer";
 
 const dropVariants = {

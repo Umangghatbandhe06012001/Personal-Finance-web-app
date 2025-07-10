@@ -5,7 +5,7 @@ import Link from "next/link";
 import { ModeToggle } from "@/components/ModeToggle"; // 
 import AddTransactionModal from "./AddTransactionModal";
 import { useState } from "react";
-import { Calendar, PlusCircle, Menu, X } from "lucide-react";
+import { Calendar, Menu, X } from "lucide-react";
 
 export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);

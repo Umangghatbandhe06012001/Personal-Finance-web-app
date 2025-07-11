@@ -10,7 +10,7 @@ export async function DELETE(
     await connectToDB();
     await Transaction.findByIdAndDelete(params.id);
     return NextResponse.json({ success: true });
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { error: 'Failed to delete transaction' },
       { status: 500 }
@@ -29,7 +29,7 @@ export async function PATCH(
       new: true,
     });
     return NextResponse.json(updated);
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { error: 'Failed to update transaction' },
       { status: 500 }

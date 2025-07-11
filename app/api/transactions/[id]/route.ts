@@ -1,14 +1,14 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { connectToDB } from '@/lib/db';
 import Transaction from '@/models/Transaction';
 
 export async function DELETE(
-  request: Request,
-  { params }: { params: { id: string } }
+  req: NextRequest,
+  context: { params: { id: string } }
 ) {
   try {
     await connectToDB();
-    await Transaction.findByIdAndDelete(params.id);
+    await Transaction.findByIdAndDelete(context.params.id);
     return NextResponse.json({ success: true });
   } catch {
     return NextResponse.json(
@@ -19,13 +19,13 @@ export async function DELETE(
 }
 
 export async function PATCH(
-  request: Request,
-  { params }: { params: { id: string } }
+  req: NextRequest,
+  context: { params: { id: string } }
 ) {
   try {
     await connectToDB();
-    const data = await request.json();
-    const updated = await Transaction.findByIdAndUpdate(params.id, data, {
+    const data = await req.json();
+    const updated = await Transaction.findByIdAndUpdate(context.params.id, data, {
       new: true,
     });
     return NextResponse.json(updated);

@@ -4,13 +4,13 @@ import Transaction from '@/models/Transaction';
 
 export async function DELETE(
   req: NextRequest,
-  context: { params: { id: string } }
+  { params }: { params: { id: string } }
 ) {
   try {
     await connectToDB();
-    await Transaction.findByIdAndDelete(context.params.id);
+    await Transaction.findByIdAndDelete(params.id);
     return NextResponse.json({ success: true });
-  } catch {
+  } catch (error) {
     return NextResponse.json(
       { error: 'Failed to delete transaction' },
       { status: 500 }
@@ -20,16 +20,16 @@ export async function DELETE(
 
 export async function PATCH(
   req: NextRequest,
-  context: { params: { id: string } }
+  { params }: { params: { id: string } }
 ) {
   try {
     await connectToDB();
     const data = await req.json();
-    const updated = await Transaction.findByIdAndUpdate(context.params.id, data, {
+    const updated = await Transaction.findByIdAndUpdate(params.id, data, {
       new: true,
     });
     return NextResponse.json(updated);
-  } catch {
+  } catch (error) {
     return NextResponse.json(
       { error: 'Failed to update transaction' },
       { status: 500 }

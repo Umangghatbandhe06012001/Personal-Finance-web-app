@@ -18,35 +18,67 @@ export default function TransactionForm({ setOpen }: TransactionFormProps) {
   const [form, setForm] = useState({ amount: "", description: "", date: "" });
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  // const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 
-    setLoading(true);
-    e.preventDefault();
-    if (!form.amount || !form.date) {
-      toast.error("Amount and date are required.");
-      return;
-    }
+  //   setLoading(true);
+  //   e.preventDefault();
+  //   if (!form.amount || !form.date) {
+  //     toast.error("Amount and date are required.");
+  //     return;
+  //   }
 
-    try {
-      await axios.post("/api/transactions", {
-        ...form,
-        amount: parseFloat(form.amount),
-      });
+  //   try {
+  //     await axios.post("/api/transactions", {
+  //       ...form,
+  //       amount: parseFloat(form.amount),
+  //     });
 
       
 
-      setTimeout(()=>{
-        setLoading(false);
-        setForm({ amount: "", description: "", date: "" });
-        toast.success("Transaction added!");
-        setOpen(false); // Close modal on success
-      },1000);
-      window.location.reload();
-    } catch {
+  //     setTimeout(()=>{
+  //       setLoading(false);
+  //       setForm({ amount: "", description: "", date: "" });
+  //       toast.success("Transaction added!");
+  //       setOpen(false); // Close modal on success
+  //     },1000);
+  //     window.location.reload();
+  //   } catch {
+  //     setLoading(false);
+  //     toast.error("Something went wrong!");
+  //   }
+  // };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  setLoading(true);
+  e.preventDefault();
+  if (!form.amount || !form.date) {
+    toast.error("Amount and date are required.");
+    setLoading(false);
+    return;
+  }
+
+  try {
+    await axios.post("/api/transactions", {
+      ...form,
+      amount: parseFloat(form.amount),
+    });
+
+    setTimeout(() => {
       setLoading(false);
-      toast.error("Something went wrong!");
-    }
-  };
+      setForm({ amount: "", description: "", date: "" });
+      toast.success("Transaction added!");
+      setOpen(false); // Close modal on success
+
+      // ✅ Safe "soft reload" for deployment
+      setTimeout(() => window.location.assign(window.location.href), 0);
+    }, 1000);
+  } catch {
+    setLoading(false);
+    toast.error("Something went wrong!");
+  }
+};
+
+
 
   return (
     <div className="w-[100%] h-[100%]">

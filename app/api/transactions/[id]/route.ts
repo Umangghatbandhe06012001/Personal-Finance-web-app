@@ -12,7 +12,7 @@ export async function DELETE(
     return NextResponse.json({ success: true });
   } catch (error) {
     return NextResponse.json(
-      { error: 'Failed to delete transaction' },
+      { error: `Failed to delete transaction ,${error}` },
       { status: 500 }
     );
   }
@@ -31,7 +31,7 @@ export async function PATCH(
     return NextResponse.json(updated);
   } catch (error) {
     return NextResponse.json(
-      { error: 'Failed to update transaction' },
+      { error: `Failed to update transaction ${error}` },
       { status: 500 }
     );
   }
